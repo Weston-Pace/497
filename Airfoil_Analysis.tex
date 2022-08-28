@@ -10,3 +10,35 @@
 
 \maketitle
 
+\section{Potential Flow Code}
+
+This is just a brief look into Potential Flow Code or Panel Code in order to have a better understanding for future readings. 
+This method of code is used to determine fluid velocity and pressure distributions sebsequently. Some assumptions of this method are that the fluid is 
+inviscid (the viscosity is 0), the fluid is incompressible, the fluid is irrotational, and the variables are unchanging ($\delta/\delta t = 0$)
+
+There are also some boundary conditions that must be met. First, the velocity potential on the internal surface and all points inside V (or on the lower
+surface S) is 0. Secondly, the velocity potential on the outer surface is normal to the surface and equal to the freestream velocity.
+
+This is just a quick equation that shows potential flow nicely:
+
+$V = \nabla \phi$ (where $V$ is velocity and $\phi$ is a solution to the method)
+
+A cool thing about potential flow is that multiple solutions to the equation can be added together to form more complex flow models.
+
+There are some limitations to potential flow, though. One is that it doesn't really exist in nature; it is too simplified for most complex situations.
+Furthermore, since it is irrotational, it can't be used near solid bodies with boundary layers because vortices will form. 
+
+\section{Thin Airfoil Theory}
+Useful definitions:
+Chord Line = the imaginary straight line joining the front edge and back edge of an airfoil
+Camber = this shows the assymetry of the airfoil about the chord line (takes the average height above or belove the axis with respect to the upper
+         and lower components of the airfoil)
+Thickness = the distance between the top and lower points of the airfoil
+Vortex = A mass of whirling fluid
+Freestream Velocity = the velocity of the fluid far ahead of the object before it is affected by the object passing through it
+
+
+
+
+
+
