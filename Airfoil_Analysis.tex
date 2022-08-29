@@ -37,6 +37,43 @@ Thickness = the distance between the top and lower points of the airfoil
 Vortex = A mass of whirling fluid
 Freestream Velocity = the velocity of the fluid far ahead of the object before it is affected by the object passing through it
 
+Equations when integrals using point sources and vortices are used and $y$ approaches $0$:
+$q(x)=V_\infty dt/dx$ (where $q$ is the strength of the point sources and $dt/dx$ is the change od the thickness with respect to $x$)
+$1/2\pi \int_{0}^{c} \gamma(s)/(x-s) \,ds = V_\infty (\alpha - d\bar{y}/dx)$
+$\gamma(\phi) = 2V_\infty\alpha/\tan(\phi) + k/\sin(\phi)$ (where $\gamma$ is the strength of the point vortices and k is some arbitrary constant)
+
+Kutta condition: fixes the problem of discontinuity at the tail edge of the airfoil by making $k = 2V_\infty\alpha$, which leads to:
+$\gamma(\phi) = \frac{2V_\infty\alpha}{\sin(\phi)} (1+\cos(\phi))$
+
+Putting $\gamma$ back in terms of x gives:
+$\gamma(x) = 2V_\infty\alpha\frac{\sqrt{1-x/c}}{\sqrt{x/c}}$
+
+Solution for cambered airfoil:
+$\gamma(\phi) = 2V_\infty[A_0\frac{1+\cos\phi}{\sin\phi}+\sum_{n} A_n\sin(n\phi)]$
+$A_0 = \alpha-1/\pi\int_{0}^{\pi} b(\theta)\, d\theta$
+$A_n = 2/\pi\int_{0}^{\pi} b(\theta)\cos(n\theta)\, d\theta$
+$b(\theta) = \frac{d\bar{y}}{dx}(x(\theta))$
+
+Equation for a the pressure coefficient in an incompressible, irrotational flow:
+$C_p = 1-(V/V_\infty)^2$
+
+Velocity in terms of our components:
+$V^2=u^2+v^2=(V_\infty\cos\alpha+u_t+u_c)^2+(V_\infty\sin\alpha+v_t+v_c)^2$ 
+
+Riegel's Correction allows us to fix our high fluid velocity on the leading edge due to the violation of the small disturbance assumption:
+$V_{mod}= V\cos\beta$ (where $\beta$ is the slope of the airfoil)
+$V_{mod} = V\frac{1}{\sqrt{1+(\frac{d\bar{y}}{dx}\pm\frac{1}{2}\frac{dt}{dx})^2}}$
+
+We can sub in $V_{mod}$ for V in our pressure coefficient equation
+
+
+Questions for tuesday:
+- What is phi in the equations above
+- Why do we approach y = 0 for the integrals
+- Why are there different induced velocities based off whether we are looking at the thickness or camber 
+- What is the cosine transformation and why does it produce a right triangle with the hypotenuse equal to 1 (e.g. figure 2.19)
+- Where does the $b(\theta)$ equation come from
+
 
 
 
