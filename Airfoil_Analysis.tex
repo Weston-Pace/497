@@ -36,6 +36,18 @@ Camber = this shows the assymetry of the airfoil about the chord line (takes the
 Thickness = the distance between the top and lower points of the airfoil
 Vortex = A mass of whirling fluid
 Freestream Velocity = the velocity of the fluid far ahead of the object before it is affected by the object passing through it
+Doublet = A source plus a sink
+Coefficient of Drag = the ratio of drag on an object with respect to its velocity and surface area: $c_d = \frac{2F_d}{\rho A_d V_\infty^2}$
+Coefficient of Lift = the ratio of lift on an object with respect to its velocity and surface area: $c_d = \frac{2F_l}{\rho A_l V_\infty^2}$
+Pitching Moment Coefficient: Relates the ratio of the moment caused be the Lift force (and maybe drag force?) and the wing area, chord length, and 
+                             the dynamic pressure: $C_m = \frac{M}{qAc}$
+Angle of Attack = The angle formed between a bodies reference line and oncoming flow: $\alpha$
+Airfoil Polar = Sometimes a table or graph that shows the relationship between important aerodynamic constants: such as drag and lift coefficients
+Lift Curve Slope = As angle of attack changes, the lift (coefficient of lift) changes with a theoretical slope of $2\pi$ (although is is usually a little lower)
+Stall = When angle of attack is increased too high past the point of maximum lift, leading to a decrease in lift
+Reynold's Number = The ratio of inertial forces to viscous forces of a fluid: $Re = \frac{\rho u L}{\mu}$ (u is the flow speed; L is the characteristic linear dimension;
+                    $\mu$ is the dynamic viscosity of the fluid)
+Mach Number = The ratio of flow velocity past a boundary to the local speed of sound. More simply, it is a value that shows how many times faster an object is going than the speed of sound: $M$
 
 Equations when integrals using point sources and vortices are used and $y$ approaches $0$:
 $q(x)=V_\infty dt/dx$ (where $q$ is the strength of the point sources and $dt/dx$ is the change od the thickness with respect to $x$)
@@ -44,6 +56,8 @@ $\gamma(\phi) = 2V_\infty\alpha/\tan(\phi) + k/\sin(\phi)$ (where $\gamma$ is th
 
 Kutta condition: fixes the problem of discontinuity at the tail edge of the airfoil by making $k = 2V_\infty\alpha$, which leads to:
 $\gamma(\phi) = \frac{2V_\infty\alpha}{\sin(\phi)} (1+\cos(\phi))$
+
+Kutta Condition states that the fluid velocity at the tail end of an airfoil must be equal at the top and bottom of the airfoil.
 
 Putting $\gamma$ back in terms of x gives:
 $\gamma(x) = 2V_\infty\alpha\frac{\sqrt{1-x/c}}{\sqrt{x/c}}$
@@ -81,12 +95,27 @@ $\Gamma=V_\infty c\pi[A_0 \frac{A_1}{2}]$
 *Kutta-Joukowski Theorem:
 $L'=\rho V_\infty \Gamma$
 
-Questions for tuesday:
+Aerodynamic center is theoretically a quarter of the way down the airfoil
+
+Thin airfoil theory has limitations based off of the small disturbance assumption; this means that at stagnation points, the pressure distribution won't be
+well predicted. Inaccuracies may also exist for airfoils of large camber or thickness.
+
+While thin airfoil theory has vortices and sources on the chord line, panel method puts them on the boundary of the airfoil.
+
+Panel method brakes the airfoil into small panels, in which conditions are evaluated over them.
+
+Assumptions of the panel method:
+- The source strength is constant over a panel, but it can vary from panel to panel.
+- The Vortex strength is constant over the whole airfoil.
+
+Questions for Tuesday:
 - What is phi in the equations above
 - Why do we approach y = 0 for the integrals
 - Why are there different induced velocities based off whether we are looking at the thickness or camber 
 - What is the cosine transformation and why does it produce a right triangle with the hypotenuse equal to 1 (e.g. figure 2.19)
 - Where does the $b(\theta)$ equation come from
+- How many values of n need to be evaluated in the series integral thing
+- Ask about Reynold's number (a more in depth explanation)
 
 
 
