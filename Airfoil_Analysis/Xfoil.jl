@@ -415,185 +415,48 @@ y = [0.001801,
 -0.002098,
 -0.001799]
 
+"""
 Xfoil.set_coordinates(x,y)
-#repanelize the coordinates
 Xfoil.pane()
-
+"""
 #set values
-alpha = -10:1:10
-re = 9.5e5
+alpha = -15:0.1:15
+"""
 mach = 0.0
-
-#initialize values
 n_a = length(alpha)
+#initialize values
+re = 4e4
 c_l = zeros(n_a)
 c_d = zeros(n_a)
 c_dp = zeros(n_a)
 c_m = zeros(n_a)
 converged = zeros(Bool, n_a)
 for i = 1:n_a
-    c_l[i], c_d[i], c_dp[i], c_m[i], converged[i] = Xfoil.solve_alpha(alpha[i], re; mach, iter = 100)
+    c_l[i], c_d[i], c_dp[i], c_m[i], converged[i] = Xfoil.solve_alpha(alpha[i], re; mach, iter = 500)
 end
 
 #display results
+
+    
 println("Angle\t\tCl\t\tCd\t\tCm\t\tConverged")
 for i = 1:n_a
     @printf("%8f\t%8f\t%8f\t%8f\t%d\n",alpha[i],c_l[i],c_d[i],c_m[i],converged[i])
 end
+    
 
-plot(alpha , c_m , xlabel = "Angle of Attack (degrees)" , ylabel = "Cm" , label = "Xfoil")
+#plot(alpha , c_l, xlabel = "Angle of Attack (degrees)" , ylabel = "Cl")
+"""
+values = []
+for w in 1e4:1e4:4e4
+    re = w
+    c_l, c_d, c_dp, c_m, converged = Xfoil.alpha_sweep(x, y, alpha, re, iter=100, zeroinit=false, printdata=true)
+    push!(values , c_m)
+end
 
-d1 = [-11,
--10.75,
--8.75,
--8.5,
--8.25,
--8,
--7.75,
--7.5,
--7.25,
--7,
--6.75,
--6.5,
--6.25,
--6,
--5.75,
--5.5,
--5.25,
--5,
--4.75,
--4.5,
--4.25,
--4,
--3.75,
--3.5,
--3.25,
--3,
--2.75,
--2.5,
--2.25,
--2,
--1.75,
--1.5,
--1.25,
--1,
--0.75,
--0.5,
--0.25,
-0,
-0.25,
-0.5,
-0.75,
-1,
-1.25,
-1.5,
-1.75,
-2,
-2.25,
-2.5,
-2.75,
-3,
-3.25,
-3.5,
-3.75,
-4,
-4.25,
-4.5,
-4.75,
-5,
-5.25,
-5.5,
-5.75,
-6,
-6.25,
-6.5,
-6.75,
-7,
-7.25,
-7.5,
-7.75,
-8,
-8.25,
-8.5,
-8.75,
-11.5,
-11.75]
+plot(alpha , values[1], xlabel = "Angle of Attack (degrees)" , ylabel = "Cm" , labels = "re = 1e4")
+plot!(alpha , values[2], labels = "re = 2e4")
+plot!(alpha , values[3], labels = "re = 3e4")
+plot!(alpha , values[4], labels = "re = 4e4")
 
-d2 = [0.0465,
-0.0439,
--0.0099,
--0.0096,
--0.0091,
--0.0087,
--0.0075,
--0.0066,
--0.0062,
--0.0059,
--0.0056,
--0.0052,
--0.0049,
--0.0045,
--0.0038,
--0.0035,
--0.0032,
--0.0029,
--0.0026,
--0.0021,
--0.0018,
--0.0015,
--0.0011,
--0.0007,
--0.0004,
-0,
-0.0005,
-0.0009,
-0.0014,
-0.0013,
--0.0007,
--0.0021,
--0.0033,
--0.0025,
--0.0005,
--0.0003,
--0.0001,
-0,
-0.0001,
-0.0003,
-0.0004,
-0.0025,
-0.0033,
-0.0021,
-0.0007,
--0.0013,
--0.0014,
--0.0009,
--0.0005,
-0,
-0.0004,
-0.0007,
-0.0011,
-0.0015,
-0.0018,
-0.0021,
-0.0026,
-0.0029,
-0.0032,
-0.0035,
-0.0038,
-0.0045,
-0.0049,
-0.0052,
-0.0056,
-0.0059,
-0.0062,
-0.0066,
-0.0075,
-0.0086,
-0.0091,
-0.0096,
-0.0099,
--0.0291,
--0.0302]
 
-plot!(d1,d2, label = "Airfoil Tools")
 
