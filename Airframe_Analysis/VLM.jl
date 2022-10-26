@@ -28,7 +28,6 @@ Pseudocode Discussion:
         *** It is the same set up as the standard steady state, but we add the geometry and discretization for tail, as well. 
         *** Normal vectors for the new geometries need to be set up, too? 
     Acceleration Simulation:
-        --- Ask Adam for what the Hell this is lol ---
         --- The idea makes sense, but the application and method are interesting ---
 """
 
@@ -93,7 +92,7 @@ ref = Reference(Sref,cref,bref,rref,Vinf)
 
 #Freestream Parameters
 Vinf = 1.0
-alpha = -5.0*pi/180
+alpha = 1.0*pi/180
 beta = 0.0
 Omega = [0.0,0.0,0.0]
 fs = Freestream(Vinf, alpha, beta, Omega)
@@ -109,35 +108,35 @@ The parameters of this function are just single inputs instead of the tuples tha
 
 # Example of input parameters:
 
-xle_h = [0.0,0.14]
+xle_h = [0.0,0.14] 'This is the distance that the leading edge is pushed back'
 
-yle_h = [0.0,1.25]
+yle_h = [0.0,1.25] 'This is the span of a single wing'
 
-zle_h = [0.0,0.0]
+zle_h = [0.0,0.0] 'This is how high in the dihedral the direction the wing goes'
 
-chord_h = [0.7,0.42]
+chord_h = [0.7,0.42] 'This is the length of the root chord to the tip chord'
 
-theta_h = [0.0,0.0]
+theta_h = [0.0,0.0] 'This is the rotation of the wing in an angle of attack manner'
 
-phi_h = [0.0,0.0]
+phi_h = [0.0,0.0] 'This is the twist along the wing'
 
-fc_h = fill((xc) -> 0, 2)
+fc_h = fill((xc) -> 0, 2) 'This is the camber along the wing'
 
-ns_h = 6
+ns_h = 6 'This is how many sections/panels are created in the spanwidth direction'
 
-nc_h = 3
+nc_h = 3 'This is how many sections/panels are created in the chordwidth direction'
 
-spacing_s_h = Uniform()
+spacing_s_h = Uniform() 'This describes the spacing of the created panels in the spanwidth direction'
 
-spacing_c_h = Uniform()
+spacing_c_h = Uniform() 'This describes the spacing of the created panels in the chordwidth direction'
 
-mirror_h = false
+mirror_h = false 
 
-symmetric = true
+symmetric = true 'This describes whether the flow is identical on either side of the aircraft'
 
 ref = Reference(Sref,cref,bref,rref,Vinf)
 """
-function VLM_Solver_Basic(xle, yle, zle, chord, theta, phi, ns, nc, fc, spacing_s, spacing_c, symmetric, ref)
+function vlm_solver_basic(xle, yle, zle, chord, theta, phi, ns, nc, fc, spacing_s, spacing_c, symmetric, ref)
     grid, surface = wing_to_surface_panels(xle, yle, zle, chord, theta, phi, ns, nc,
     fc = fc, spacing_s = spacing_s, spacing_c = spacing_c)
     surfaces = [surface]
@@ -168,35 +167,35 @@ The parameters of this function are just single inputs instead of the tuples tha
 
 # Example of input parameters:
     
-xle_h = [0.0,0.14]
+xle_h = [0.0,0.14] 'This is the distance that the leading edge is pushed back'
 
-yle_h = [0.0,1.25]
+yle_h = [0.0,1.25] 'This is the span of a single wing'
 
-zle_h = [0.0,0.0]
+zle_h = [0.0,0.0] 'This is how high in the dihedral the direction the wing goes'
 
-chord_h = [0.7,0.42]
+chord_h = [0.7,0.42] 'This is the length of the root chord to the tip chord'
 
-theta_h = [0.0,0.0]
+theta_h = [0.0,0.0] 'This is the rotation of the wing in an angle of attack manner'
 
-phi_h = [0.0,0.0]
+phi_h = [0.0,0.0] 'This is the twist along the wing'
 
-fc_h = fill((xc) -> 0, 2)
+fc_h = fill((xc) -> 0, 2) 'This is the camber along the wing'
 
-ns_h = 6
+ns_h = 6 'This is how many sections/panels are created in the spanwidth direction'
 
-nc_h = 3
+nc_h = 3 'This is how many sections/panels are created in the chordwidth direction'
 
-spacing_s_h = Uniform()
+spacing_s_h = Uniform() 'This describes the spacing of the created panels in the spanwidth direction'
 
-spacing_c_h = Uniform()
+spacing_c_h = Uniform() 'This describes the spacing of the created panels in the chordwidth direction'
 
-mirror_h = false
-    
-symmetric = true
-    
+mirror_h = false 
+
+symmetric = true 'This describes whether the flow is identical on either side of the aircraft'
+
 ref = Reference(Sref,cref,bref,rref,Vinf)
 """
-function VLM_Solver_Efficiency(xle, zle, chord, theta, phi, ns, nc, fc, spacing_s, spacing_c, symmetric, fs)
+function vlm_solver_efficiency(xle, zle, chord, theta, phi, ns, nc, fc, spacing_s, spacing_c, symmetric, fs)
     Aspect_Ratios = []
     efficiencies = []
     for i in 10:0.5:1000
@@ -250,33 +249,33 @@ The parameters of this function are inputed as tuples instead of the single inpu
 
 # Example of inputed tuple
 
-xle_h = [0.0,0.14]
+xle_h = [0.0,0.14] 'This is the distance that the leading edge is pushed back'
 
-yle_h = [0.0,1.25]
+yle_h = [0.0,1.25] 'This is the span of a single wing'
 
-zle_h = [0.0,0.0]
+zle_h = [0.0,0.0] 'This is how high in the dihedral the direction the wing goes'
 
-chord_h = [0.7,0.42]
+chord_h = [0.7,0.42] 'This is the length of the root chord to the tip chord'
 
-theta_h = [0.0,0.0]
+theta_h = [0.0,0.0] 'This is the rotation of the wing in an angle of attack manner'
 
-phi_h = [0.0,0.0]
+phi_h = [0.0,0.0] 'This is the twist along the wing'
 
-fc_h = fill((xc) -> 0, 2)
+fc_h = fill((xc) -> 0, 2) 'This is the camber along the wing'
 
-ns_h = 6
+ns_h = 6 'This is how many sections/panels are created in the spanwidth direction'
 
-nc_h = 3
+nc_h = 3 'This is how many sections/panels are created in the chordwidth direction'
 
-spacing_s_h = Uniform()
+spacing_s_h = Uniform() 'This describes the spacing of the created panels in the spanwidth direction'
 
-spacing_c_h = Uniform()
+spacing_c_h = Uniform() 'This describes the spacing of the created panels in the chordwidth direction'
 
-mirror_h = false
+mirror_h = false 
 
 H_Tail_Geo = (xle_h, zle_h, yle_h, chord_h, theta_h, phi_h, ns_h, nc_h, spacing_s_h, spacing_c_h, mirror_h, fc_h)
 """
-function VLM_Solver_Wing_Tail_Derivatives(Wing_Geo, H_Tail_Geo, V_Tail_Geo, ref, fs, symmetric)
+function vlm_solver_wing_tail_derivatives(Wing_Geo, H_Tail_Geo, V_Tail_Geo, ref, fs, symmetric)
     #generate panels for wing
     wgrid, wing = wing_to_surface_panels(xle, yle, zle, chord, theta, phi, ns, nc,
     fc = fc, spacing_s = spacing_s, spacing_c = spacing_c, mirror = mirror)
@@ -321,33 +320,33 @@ The parameters of this function are inputed as tuples instead of the single inpu
 
 # Example of inputed tuple
 
-xle_h = [0.0,0.14]
-    
-yle_h = [0.0,1.25]
-    
-zle_h = [0.0,0.0]
-    
-chord_h = [0.7,0.42]
-    
-theta_h = [0.0,0.0]
-    
-phi_h = [0.0,0.0]
-    
-fc_h = fill((xc) -> 0, 2)
-    
-ns_h = 6
-    
-nc_h = 3
-    
-spacing_s_h = Uniform()
-    
-spacing_c_h = Uniform()
-    
-mirror_h = false
+xle_h = [0.0,0.14] 'This is the distance that the leading edge is pushed back'
+
+yle_h = [0.0,1.25] 'This is the span of a single wing'
+
+zle_h = [0.0,0.0] 'This is how high in the dihedral the direction the wing goes'
+
+chord_h = [0.7,0.42] 'This is the length of the root chord to the tip chord'
+
+theta_h = [0.0,0.0] 'This is the rotation of the wing in an angle of attack manner'
+
+phi_h = [0.0,0.0] 'This is the twist along the wing'
+
+fc_h = fill((xc) -> 0, 2) 'This is the camber along the wing'
+
+ns_h = 6 'This is how many sections/panels are created in the spanwidth direction'
+
+nc_h = 3 'This is how many sections/panels are created in the chordwidth direction'
+
+spacing_s_h = Uniform() 'This describes the spacing of the created panels in the spanwidth direction'
+
+spacing_c_h = Uniform() 'This describes the spacing of the created panels in the chordwidth direction'
+
+mirror_h = false 
     
 H_Tail_Geo = (xle_h, zle_h, yle_h, chord_h, theta_h, phi_h, ns_h, nc_h, spacing_s_h, spacing_c_h, mirror_h, fc_h)
 """
-function VLM_Solver_Wing_Tail(Wing_Geo, H_Tail_Geo, V_Tail_Geo, ref, symmetric)
+function vlm_solver_wing_tail(Wing_Geo, H_Tail_Geo, V_Tail_Geo, ref, symmetric)
     alpha_list = []
     Lift_C = []
     for i in -15.0:15.0
