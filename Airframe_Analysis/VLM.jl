@@ -33,11 +33,11 @@ Pseudocode Discussion:
 
 #Wing Geometry
 #Set Up Geometry
-xle = [0.0, 1.0]
-yle = [0.0,7.5]
-zle = [0.0,2.0]
-chord = [2.2, 1.0]
-theta = [0.0,0.0]
+xle = [0.0, 0.1]
+yle = [0.0,0.5]
+zle = [0.0,0.05]
+chord = [0.1, 0.05]
+theta = [2*pi/180,2*pi/180]
 phi = [0.0,0.0]
 fc = fill((xc) -> 0, 2)
 #Discretization Values
@@ -49,10 +49,10 @@ mirror = false
 Wing_Geo = (xle, yle, zle, chord, theta, phi, ns, nc, spacing_s, spacing_c, mirror, fc)
 
 #Horizontal Stabalizer Geometry
-xle_h = [0.0,0.14]
-yle_h = [0.0,1.25]
+xle_h = [0.0,0.05]
+yle_h = [0.0,0.1]
 zle_h = [0.0,0.0]
-chord_h = [0.7,0.42]
+chord_h = [0.05,0.03]
 theta_h = [0.0,0.0]
 phi_h = [0.0,0.0]
 fc_h = fill((xc) -> 0, 2)
@@ -64,10 +64,10 @@ mirror_h = false
 H_Tail_Geo = (xle_h, zle_h, yle_h, chord_h, theta_h, phi_h, ns_h, nc_h, spacing_s_h, spacing_c_h, mirror_h, fc_h)
 
 #Vertical Stabalizer Geometry
-xle_v = [0.0,0.14]
+xle_v = [0.0,0.03]
 yle_v = [0.0,0.0]
-zle_v = [0.0,1.0]
-chord_v = [0.7, 0.42]
+zle_v = [0.0,0.1]
+chord_v = [0.05, 0.02]
 theta_v = [0.0,0.0]
 phi_v = [0.0,0.0]
 fc_v = fill((xc) -> 0, 2)
@@ -92,7 +92,7 @@ ref = Reference(Sref,cref,bref,rref,Vinf)
 
 #Freestream Parameters
 Vinf = 1.0
-alpha = 1.0*pi/180
+alpha = 0.0
 beta = 0.0
 Omega = [0.0,0.0,0.0]
 fs = Freestream(Vinf, alpha, beta, Omega)
@@ -283,14 +283,14 @@ function vlm_solver_wing_tail_derivatives(Wing_Geo, H_Tail_Geo, V_Tail_Geo, ref,
     #generate panels for horizontal tail
     hgrid, htail = wing_to_surface_panels(xle_h, yle_h, zle_h, chord_h, theta_h, phi_h, ns_h, nc_h,
     fc = fc_h, spacing_s = spacing_s_h, spacing_c = spacing_c_h, mirror = mirror_h)
-    VortexLattice.translate!(hgrid, [4.0,0.0,0.0])
-    VortexLattice.translate!(htail, [4.0,0.0,0.0])
+    VortexLattice.translate!(hgrid, [0.3,0.0,0.0])
+    VortexLattice.translate!(htail, [0.3,0.0,0.0])
 
     #generate panels for vertical tail
     vgrid, vtail = wing_to_surface_panels(xle_v, yle_v, zle_v, chord_v, theta_v, phi_v, ns_v, nc_v,
     fc = fc_v, spacing_s = spacing_s_v, spacing_c = spacing_c_v, mirror = mirror_v)
-    VortexLattice.translate!(vgrid, [4.0,0.0,0.0])
-    VortexLattice.translate!(vtail, [4.0,0.0,0.0])
+    VortexLattice.translate!(vgrid, [0.3,0.0,0.0])
+    VortexLattice.translate!(vtail, [0.3,0.0,0.0])
 
     grids = [wgrid, hgrid, vgrid]
     surfaces = [wing, htail, vtail]
@@ -307,6 +307,7 @@ function vlm_solver_wing_tail_derivatives(Wing_Geo, H_Tail_Geo, V_Tail_Geo, ref,
     #Finding the Stability Derivatives
 
     dCF, dCM = stability_derivatives(system)
+    println(CL/CD)
 end
 
 
@@ -362,14 +363,14 @@ function vlm_solver_wing_tail(Wing_Geo, H_Tail_Geo, V_Tail_Geo, ref, symmetric)
         #generate panels for horizontal tail
         hgrid, htail = wing_to_surface_panels(xle_h, yle_h, zle_h, chord_h, theta_h, phi_h, ns_h, nc_h,
         fc = fc_h, spacing_s = spacing_s_h, spacing_c = spacing_c_h, mirror = mirror_h)
-        VortexLattice.translate!(hgrid, [4.0,0.0,0.0])
-        VortexLattice.translate!(htail, [4.0,0.0,0.0])
+        VortexLattice.translate!(hgrid, [0.3,0.0,0.0])
+        VortexLattice.translate!(htail, [0.3,0.0,0.0])
 
         #generate panels for vertical tail
         vgrid, vtail = wing_to_surface_panels(xle_v, yle_v, zle_v, chord_v, theta_v, phi_v, ns_v, nc_v,
         fc = fc_v, spacing_s = spacing_s_v, spacing_c = spacing_c_v, mirror = mirror_v)
-        VortexLattice.translate!(vgrid, [4.0,0.0,0.0])
-        VortexLattice.translate!(vtail, [4.0,0.0,0.0])
+        VortexLattice.translate!(vgrid, [0.3,0.0,0.0])
+        VortexLattice.translate!(vtail, [0.3,0.0,0.0])
 
         grids = [wgrid, hgrid, vgrid]
         surfaces = [wing, htail, vtail]
@@ -388,3 +389,4 @@ function vlm_solver_wing_tail(Wing_Geo, H_Tail_Geo, V_Tail_Geo, ref, symmetric)
     plot(alpha_list, Lift_C, xlabel = "Angle of Attack In Degrees (Body of the Plane)", ylabel = "Coefficient of Lift")
 end
 
+vlm_solver_wing_tail_derivatives(Wing_Geo, H_Tail_Geo, V_Tail_Geo, ref, fs, symmetric)
