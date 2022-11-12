@@ -1,6 +1,6 @@
 using VortexLattice
-x = [0.5000000099993505, 0.7500000099998233, 0.5000000099996648, 0.4000000099991854, 0.29999999000018374, -9.998559696625576e-9, 0.3, 0.29999809265135313, 1.5999999840682646]
-function objective(x)
+x = [0.5000000099993505, 0.7500000099998233, 0.2000000099996648, 0.4000000099991854, 0.29999999000018374, -9.998559696625576e-9, 0.3, 0.29999809265135313, 1.5999999840682646]
+function tester(x)    
     function airframe_surface_initializer(wing_geo, horizontal_geo, vertical_geo, h_position, v_position)
         #generate panels for wing
         wgrid, wing = wing_to_surface_panels(xle, yle, zle, chord, theta, phi, ns, nc,
@@ -57,7 +57,7 @@ function objective(x)
         CDr, CYr, CLr = dCF.r
         Clr, Cmr, Cnr = dCM.r
     
-        return CLa, Cma, Cnb, Cla, Cmq, CYb, Cmb, Clb
+        return Cma, Cnb, Clb
     end
     
     x1, x2, x3, x4, x5, x6, x7, x8, x9 = x
@@ -66,7 +66,7 @@ function objective(x)
     xle = [0.0, x1]
     yle = [0.0, x2]
     zle = [0.0, x3]
-    chord = [0.5, 0.3]
+    chord = [0.3, 0.2]
     theta = [0.0, 0.0]
     phi = [0.0, 0.0]
     fc_w = fill((xc) -> 0, 2)
@@ -81,7 +81,7 @@ function objective(x)
     xle_h = [0.0, x4]
     yle_h = [0.0, x5]
     zle_h = [0.0, x6]
-    chord_h = [0.3, 0.15]
+    chord_h = [0.2, 0.2]
     theta_h = [0.0, 0.0]
     phi_h = [0.0, 0.0]
     fc_h = fill((xc) -> 0, 2)
@@ -96,7 +96,7 @@ function objective(x)
     xle_v = [0.0, x7]
     yle_v = [0.0, 0.0]
     zle_v = [0.0, x8]
-    chord_v = [0.3, 0.05]
+    chord_v = [0.2, 0.1]
     theta_v = [0.0, 0.0]
     phi_v = [0.0, 0.0]
     fc_v = fill((xc) -> 0, 2)
@@ -133,7 +133,7 @@ function objective(x)
 
     lift_drag, lift = lift_to_drag_solver(airframe_grid, airframe_surface, ref, fs, symmetric)
 
-    CLa, Cma, Cnb, Cla, Cmq, CYb, Cmb, Clb = stability_derivatives_solver(airframe_grid, airframe_surface, ref, fs, symmetric)
+    Cma, Cnb, Clb = stability_derivatives_solver(airframe_grid, airframe_surface, ref, fs, symmetric)
 
 
     
@@ -141,4 +141,4 @@ function objective(x)
 
 end
 
-objective(x)
+tester(x)
