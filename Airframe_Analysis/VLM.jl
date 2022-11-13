@@ -312,7 +312,7 @@ function vlm_solver_wing_tail_derivatives(Wing_Geo, H_Tail_Geo, V_Tail_Geo, ref,
 
         #Finding the Stability Derivatives
 
-        #tail_volume = (chord_h[1]*yle_h[2]*4.0)/(chord[1]*yle[2]*chord[1]*0.25)
+        #tail_volume = (chord_v[1]*zle_v[2]*i)/(chord[1]*yle[2]*chord[1]*0.25)
 
         push!(dihedral , i)
 
@@ -333,9 +333,9 @@ function vlm_solver_wing_tail_derivatives(Wing_Geo, H_Tail_Geo, V_Tail_Geo, ref,
         push!(Cnb_d, Cnb)
         push!(Clb_d, Clb)
     end
-    plot(dihedral, Clb_d, xlabel = "Dihedral", ylabel = "Derivative Value", label = "Clb")
-    #plot!(dihedral, Cnb_d, label = "Cnb")
-    #plot!(dihedral, Cmb_d, label = "Cmb")
+    plot(dihedral, Clb_d, xlabel = "Dihedral (unit lengths)", ylabel = "Derivative Value", label = "Clb")
+    #plot!(volume, Cnb_d, label = "Cnb")
+    #plot!(volume, Clb_d, label = "Clb")
 end
 
 
