@@ -35,7 +35,7 @@ Pseudocode Discussion:
 #Set Up Geometry
 xle = [0.0, 1.0]
 yle = [0.0,7.5]
-#zle = [0.0,2.0]
+zle = [0.0,2.0]
 chord = [2.2, 1.0]
 theta = [0.0,0.0]
 phi = [0.0,0.0]
@@ -46,7 +46,7 @@ nc = 6
 spacing_s = Uniform()
 spacing_c = Uniform()
 mirror = false
-Wing_Geo = (xle, yle, chord, theta, phi, ns, nc, spacing_s, spacing_c, mirror, fc)
+Wing_Geo = (xle, yle, zle, chord, theta, phi, ns, nc, spacing_s, spacing_c, mirror, fc)
 
 #Horizontal Stabalizer Geometry
 xle_h = [0.0,0.14]
@@ -277,12 +277,11 @@ H_Tail_Geo = (xle_h, zle_h, yle_h, chord_h, theta_h, phi_h, ns_h, nc_h, spacing_
 """
 function vlm_solver_wing_tail_derivatives(Wing_Geo, H_Tail_Geo, V_Tail_Geo, ref, fs, symmetric)
     #generate panels for wing
-    dihedral = []
+    Volume = []
     Cma_d = []
     Cnb_d = []
     Clb_d = []
-    for i in 1.0:0.1:10
-        zle = [0.0, i]
+    for i in 1.0:0.1:40
         wgrid, wing = wing_to_surface_panels(xle, yle, zle, chord, theta, phi, ns, nc,
         fc = fc, spacing_s = spacing_s, spacing_c = spacing_c, mirror = mirror)
             
@@ -295,8 +294,8 @@ function vlm_solver_wing_tail_derivatives(Wing_Geo, H_Tail_Geo, V_Tail_Geo, ref,
         #generate panels for vertical tail
         vgrid, vtail = wing_to_surface_panels(xle_v, yle_v, zle_v, chord_v, theta_v, phi_v, ns_v, nc_v,
         fc = fc_v, spacing_s = spacing_s_v, spacing_c = spacing_c_v, mirror = mirror_v)
-        VortexLattice.translate!(vgrid, [4.0,0.0,0.0])
-        VortexLattice.translate!(vtail, [4.0,0.0,0.0])
+        VortexLattice.translate!(vgrid, [i,0.0,0.0])
+        VortexLattice.translate!(vtail, [i,0.0,0.0])
 
         grids = [wgrid, hgrid, vgrid]
         surfaces = [wing, htail, vtail]
@@ -312,9 +311,9 @@ function vlm_solver_wing_tail_derivatives(Wing_Geo, H_Tail_Geo, V_Tail_Geo, ref,
 
         #Finding the Stability Derivatives
 
-        #tail_volume = (chord_v[1]*zle_v[2]*i)/(chord[1]*yle[2]*chord[1]*0.25)
+        tail_volume = (chord_v[1]*zle_v[2]*i)/(chord[1]*yle[2]*chord[1]*0.25)
 
-        push!(dihedral , i)
+        push!(Volume , tail_volume)
 
         dCF, dCM = stability_derivatives(system)
 
@@ -333,9 +332,9 @@ function vlm_solver_wing_tail_derivatives(Wing_Geo, H_Tail_Geo, V_Tail_Geo, ref,
         push!(Cnb_d, Cnb)
         push!(Clb_d, Clb)
     end
-    plot(dihedral, Clb_d, xlabel = "Dihedral (unit lengths)", ylabel = "Derivative Value", label = "Clb")
-    #plot!(volume, Cnb_d, label = "Cnb")
-    #plot!(volume, Clb_d, label = "Clb")
+    plot(Volume, Cma_d, xlabel = "Horizontal-Tail-Volume-Ratio (changing position)", ylabel = "Derivative Value", label = "Cma")
+    plot!(Volume, Cnb_d, label = "Cnb")
+    plot!(Volume, Clb_d, label = "Clb")
 end
 
 
