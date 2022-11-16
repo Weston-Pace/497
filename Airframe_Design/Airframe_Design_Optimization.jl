@@ -5,7 +5,7 @@ using LinearAlgebra
 include("Optimization_Functions.jl")
 
 #Initial conditions and bounds for the optimizer
-x_0 = [0.41, 0.5, 0.15, 0.2, 0.31, 0.001, 0.3, 0.3, 2.0]
+x_0 = [0.1, 0.5, 0.01, 0.2, 0.3, 0.001, 0.1, 0.1, 2.0]
 
 lx = [0.1, 0.5, 0.01, 0.2, 0.3, 0.0, 0.1, 0.1, 1.7]
 

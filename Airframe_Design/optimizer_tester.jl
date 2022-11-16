@@ -1,5 +1,5 @@
 using VortexLattice
-x = [0.5000000099706225, 0.7500000099904578, 0.20000000996657682, 0.5000000099605839, 0.2999999900122995, -9.929404636797622e-9, 0.29999427309849536, 0.30000476836969897, 1.6999999894261193]
+x = [0.1, 0.5, 0.01, 0.2, 0.3, 0.001, 0.1, 0.1, 2.0]
 function tester(x)    
     function airframe_surface_initializer(wing_geo, horizontal_geo, vertical_geo, h_position, v_position)
         #generate panels for wing
@@ -137,7 +137,7 @@ function tester(x)
 
 
     
-    return ((1/2)*Vinf^(2)*Sref*1.225*lift)
+    return (Clb)
 
 end
 
