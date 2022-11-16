@@ -232,11 +232,11 @@ function objective(g, x)
     #Constraint Functions
     g1 = 4.9 - (1/2)*Vinf^(2)*Sref*1.225*lift
 
-    g2 = 0.1 + Cma
+    g2 = 0.001 + Cma
 
-    g3 = 0.1 - Cnb
+    g3 = 0.001 - Cnb
 
-    g4 = 0.1 + Clb
+    g4 = 0.001 + Clb
     
     return (-lift_drag)
 
