@@ -33,9 +33,9 @@ Pseudocode Discussion:
 
 #Wing Geometry
 #Set Up Geometry
-#xle = [0.0, 1.0]
+xle = [0.0, 1.0]
 yle = [0.0,7.5]
-zle = [0.0,2.0]
+#zle = [0.0,2.0]
 chord = [2.2, 1.0]
 theta = [0.0,0.0]
 phi = [0.0,0.0]
@@ -46,7 +46,7 @@ nc = 6
 spacing_s = Uniform()
 spacing_c = Uniform()
 mirror = false
-Wing_Geo = ( yle, zle, chord, theta, phi, ns, nc, spacing_s, spacing_c, mirror, fc)
+Wing_Geo = ( xle, yle, chord, theta, phi, ns, nc, spacing_s, spacing_c, mirror, fc)
 
 #Horizontal Stabalizer Geometry
 xle_h = [0.0,0.14]
@@ -81,14 +81,14 @@ V_Tail_Geo = (xle_v, yle_v, zle_v, chord_v, theta_v, phi_v, ns_v, nc_v, spacing_
 
 
 #Reference Parameters
-
+"""
 Sref = 9.0
 cref = 0.9
 bref = 10.0
 rref = [0.50, 0.0, 0.0]
 Vinf = 1.0
 ref = Reference(Sref,cref,bref,rref,Vinf)
-
+"""
 
 #Freestream Parameters
 Vinf = 1.0
@@ -275,14 +275,18 @@ mirror_h = false
 
 H_Tail_Geo = (xle_h, zle_h, yle_h, chord_h, theta_h, phi_h, ns_h, nc_h, spacing_s_h, spacing_c_h, mirror_h, fc_h)
 """
-function vlm_solver_wing_tail_derivatives(Wing_Geo, H_Tail_Geo, V_Tail_Geo, ref, fs, symmetric)
+function vlm_solver_wing_tail_derivatives(Wing_Geo, H_Tail_Geo, V_Tail_Geo, fs, symmetric)
     #generate panels for wing
-    sweep = []
-    Cma_d = []
-    Cnb_d = []
+    dihedral = []
     Clb_d = []
     for i in 1.0:0.1:40
-        xle = [0.0, i]
+        Sref = 2*chord[1]*yle[2]
+        cref = chord[1]
+        bref = 2*yle[2]
+        rref = [0.50, 0.0, 0.0]
+        Vinf = 1.0
+        ref = Reference(Sref,cref,bref,rref,Vinf)
+        zle = [0.0, i]
         wgrid, wing = wing_to_surface_panels(xle, yle, zle, chord, theta, phi, ns, nc,
         fc = fc, spacing_s = spacing_s, spacing_c = spacing_c, mirror = mirror)
             
@@ -314,7 +318,10 @@ function vlm_solver_wing_tail_derivatives(Wing_Geo, H_Tail_Geo, V_Tail_Geo, ref,
 
         #tail_volume = (chord_v[1]*zle_v[2]*i)/(chord[1]*yle[2]*chord[1]*0.25)
 
-        push!(sweep , i)
+        #ratio = ((2*yle[2])^2)/(2*chord[1]*yle[2])
+
+
+        push!(dihedral , i)
 
         dCF, dCM = stability_derivatives(system)
 
@@ -329,13 +336,11 @@ function vlm_solver_wing_tail_derivatives(Wing_Geo, H_Tail_Geo, V_Tail_Geo, ref,
         CDr, CYr, CLr = dCF.r
         Clr, Cmr, Cnr = dCM.r
 
-        push!(Cma_d, Cma)
-        push!(Cnb_d, Cnb)
+        #e = ((CL)^2)/(pi*ratio*CD)
+
         push!(Clb_d, Clb)
     end
-    plot(sweep, Cma_d, xlabel = "Sweep of Wing", ylabel = "Derivative Value", label = "Cma")
-    plot!(sweep, Cnb_d, label = "Cnb")
-    plot!(sweep, Clb_d, label = "Clb")
+    plot(dihedral, Clb_d, xlabel = "Dihedral", ylabel = "Value")
 end
 
 
@@ -417,4 +422,4 @@ function vlm_solver_wing_tail(Wing_Geo, H_Tail_Geo, V_Tail_Geo, ref, symmetric)
     plot(alpha_list, Lift_C, xlabel = "Angle of Attack In Degrees (Body of the Plane)", ylabel = "Coefficient of Lift")
 end
 
-vlm_solver_wing_tail_derivatives(Wing_Geo, H_Tail_Geo, V_Tail_Geo, ref, fs, symmetric)
+vlm_solver_wing_tail_derivatives(Wing_Geo, H_Tail_Geo, V_Tail_Geo, fs, symmetric)
